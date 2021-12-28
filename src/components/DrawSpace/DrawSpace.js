@@ -7,15 +7,13 @@ import flower2 from '../../assets/flower2.jpg';
 import flower3 from '../../assets/flower3.jpg';
 
 const DrawSpace = (props) => {
-	const [widgets, setWidgets] = useState([flower1, flower2, flower3]);
+	const widgets = [flower1, flower2, flower3];
 	const [draggedWidgetIndex, setDraggedWidgetIndex] = useState(null);
 	const [size, setSize] = useState({ x: 600, y: 500 });
 	const draggedWidgetRef = useRef();
 	const allocateDraggedWidget = (widgetIndex) => setDraggedWidgetIndex(widgetIndex);
 	const topRightAlign = useRef();
 	const topLeftAlign = useRef();
-	const bottomRightAlign = useRef();
-	const bottomLeftAlign = useRef();
 	const aligners = [topRightAlign, topLeftAlign];
 	const onDrop = (event) => {
 		event.preventDefault();
