@@ -23,6 +23,10 @@ const DrawSpace = (props) => {
 	};
 	const handleReset = () => {
 		draggedWidgetRef.current.children[0].style.backgroundImage = '';
+		setSize({
+			x: 600,
+			y: 500,
+		});
 	};
 	const calculateResize = (currentX, currentY, eX, eY, btnPos) => {
 		console.log(btnPos);
@@ -56,15 +60,24 @@ const DrawSpace = (props) => {
 	};
 	const resizeHandler = useCallback(() => {
 		function onMouseMove(e, btnPos) {
-			setSize((currentSize) =>
-				calculateResize(currentSize.x, currentSize.y, e.movementX, e.movementY, btnPos)
-			);
-		}
-		function onMouseUp() {
-			aligners.forEach((anAligner) => {
-				anAligner.current.removeEventListener('mousemove', onMouseMove);
-				anAligner.current.removeEventListener('mouseup', onMouseUp);
+			setSize((currentSize) => {
+				const newSize = calculateResize(
+					currentSize.x,
+					currentSize.y,
+					e.movementX,
+					e.movementY,
+					btnPos
+				);
+				if (newSize.x > 600) newSize.x = 600;
+				if (newSize.x < 100) newSize.x = 100;
+				if (newSize.y > 500) newSize.y = 500;
+				if (newSize.y < 80) newSize.y = 80;
+				return newSize;
 			});
+		}
+		function onMouseUp(index) {
+			aligners[index].current.removeEventListener('mousemove', onMouseMove);
+			aligners[index].current.removeEventListener('mouseup', onMouseUp);
 		}
 		topRightAlign.current.addEventListener('mousemove', (event) =>
 			onMouseMove(event, 'top-right')
@@ -72,10 +85,10 @@ const DrawSpace = (props) => {
 		topLeftAlign.current.addEventListener('mousemove', (event) =>
 			onMouseMove(event, 'top-left')
 		);
-		topRightAlign.current.addEventListener('mouseleave', onMouseUp);
-		topRightAlign.current.addEventListener('onmouseup', onMouseUp);
-		topLeftAlign.current.addEventListener('mouseleave', onMouseUp);
-		topLeftAlign.current.addEventListener('onmouseup', onMouseUp);
+		aligners.forEach((anAligner, index) => {
+			anAligner.current.addEventListener('mouseout', () => onMouseUp(index));
+			anAligner.current.addEventListener('mouseup', () => onMouseUp(index));
+		});
 	}, []);
 	return (
 		<div className='DrawSpace'>
