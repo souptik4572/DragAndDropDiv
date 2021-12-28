@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import DrawSpace from './components/DrawSpace/DrawSpace';
 
