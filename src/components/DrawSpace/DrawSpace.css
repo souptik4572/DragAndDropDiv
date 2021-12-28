@@ -15,7 +15,7 @@
 	place-items: center;
 }
 
-.DrawSpace-main button {
+.DrawSpace-main .reset {
 	background-color: #00bfa5;
 	border: none;
 	outline: none;
@@ -33,11 +33,16 @@
 	width: 65vw;
 	height: 70vh;
 	border: 1px solid black;
-	padding: 10px;
 }
 
-.draw-area img {
-	width: 90%;
-	height: 92%;
+.draw-area .inner {
+	width: 100%;
+	height: 100%;
 	text-align: center;
+}
+
+.inner button {
+	position: relative;
+	border-radius: 50%;
+	cursor: pointer;
 }
